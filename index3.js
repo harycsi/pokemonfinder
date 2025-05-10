@@ -1,5 +1,11 @@
+//HF: https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0
+//A fenti végpontot átalakítva képesek legyünk lekérni 0-9999-ig pokémonokat.
+//Minden lekért pokemon képét jelenítsük meg! A megjelenítés egy 5x5-ös gridben végezd el!
+//Használj css-t a grid kialakításához
+
 const OPTIONS = {
     api: 'https://pokeapi.co/api/v2/pokemon/'
+    api2: 'https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0'
 }
 
 const components = {
@@ -17,6 +23,7 @@ document.getElementById(components.input).addEventListener('input', () => {
         document.getElementById(components.button).disabled = false
     } else {
         document.getElementById(components.button).disabled = true
+        containerEmpty();
     }
 })
 
@@ -30,4 +37,14 @@ function createPokemonImage(data){
             src: data.sprites.front_default,
         })
     );
+}
+
+function containerEmpty(){  
+        if (document.getElementById(components.input).value.length == 0){
+            document.getElementById(components.container).append(
+                Object.assign(document.createElement(""),{
+
+                })
+            );
+        }
 }
