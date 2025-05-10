@@ -9,19 +9,25 @@ const components = {
 }
 
 document.getElementById(components.button).addEventListener('click',async () => {
-    const data = await getPokemonByName(document.getElementById(components.input).value)
-    createPokemonImage(data);
+    createPokemonImage(await getPokemonByName(document.getElementById(components.input).value));
+})
+
+document.getElementById(components.input).addEventListener('input', () => {
+    if (document.getElementById(components.input).value.length > 0) {
+        document.getElementById(components.button).disabled = false
+    } else {
+        document.getElementById(components.button).disabled = true
+    }
 })
 
 async function getPokemonByName(pokemonName){
-    const response = await fetch(`${OPTIONS.api}${pokemonName}`)
-    const data = await response.json()  //az adatot stringből objektummá alakítja át
-    return data;
+    return (await fetch(`${OPTIONS.api}${pokemonName}`)).json()     //az adatot stringből objektummá alakítja át
 }
 
 function createPokemonImage(data){
-    const pokemonImg = data.sprites.front_default;
-    const img = document.createElement('img');
-    img.src = pokemonImg;
-    document.getElementById(components.container).append(img)
+    document.getElementById(components.container).append(
+        Object.assign(document.createElement('img'),{
+            src: data.sprites.front_default,
+        })
+    );
 }
